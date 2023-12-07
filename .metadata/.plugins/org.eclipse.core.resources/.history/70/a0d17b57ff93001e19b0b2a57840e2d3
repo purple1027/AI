@@ -1,0 +1,23 @@
+package javaBasic02.ch05.sec02;
+
+public class 참조타입2 {
+
+	public static void main(String[] args) {
+		
+		A address=new A();
+		
+		// 홍길동이라고 입력하고 싶을 땐
+		
+		address.name="홍길동";
+		address.kor=100;
+        address.avg=3.5;
+		
+	
+        A address2=new A();
+        System.out.println(address==address2);
+        
+        
+		
+	} //메인
+
+} //클래스

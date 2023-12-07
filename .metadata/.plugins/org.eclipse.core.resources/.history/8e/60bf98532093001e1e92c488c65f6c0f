@@ -1,0 +1,30 @@
+package javeBasic.ch03.sec02;
+
+public class 대입연산자 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		
+		int count=100;
+		count += 10; // count=count + 10;
+
+		
+		count-=20;
+		
+
+		count = count*5;
+		count *= 5;
+		
+		
+		
+		int score = 85;
+		//90 이상이면 장학생 아니면 비 장학생이라고 출력하기
+		
+		String result = (score >= 90) ? "장학생" : "비장학생";
+		System.out.println(result);
+				
+		
+	}
+
+}

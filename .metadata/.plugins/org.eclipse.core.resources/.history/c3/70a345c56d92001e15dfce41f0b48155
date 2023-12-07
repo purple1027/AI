@@ -1,0 +1,21 @@
+package javeBasic.ch02.sec10;
+
+public class datatype2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		
+		// ³í¸®Çü boolean
+		
+		
+		boolean b1 = true;
+		boolean b2 = false;
+		
+		boolean b3 = 10 > 8;
+				System.out.println(b3);
+		
+		
+ 	}
+
+}

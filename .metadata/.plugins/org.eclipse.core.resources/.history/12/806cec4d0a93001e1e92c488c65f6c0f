@@ -1,0 +1,23 @@
+package javaBasic.ch03.sec01;
+
+public class 변수복습 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+        String carname;
+        carname = "싼타페";
+        
+        int total = 35000000;
+        int deliverymoney= 15000000;
+        int installmentprincipal=20000000;	
+        int periodofrefund=36;
+        double monthlypayment=555,555.56;
+        
+        
+        System.out.println("차량명:" + carname + " " + total + " " + deliverymoney + " " + installmentprincipal + " ");
+        System.out.println(periodofrefund + " " + monthlypayment + " ");
+        
+        
+	}
+
+}

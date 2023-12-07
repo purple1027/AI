@@ -1,0 +1,23 @@
+import javaBasic02.ch05.sec02.B;
+
+public class 이차원배열 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		int[][] intArr1 = { {1,2},{2,3},{3,4}};
+		
+		
+		String[][] StringArr2 = { {"a","b","c"},{"d","e","f"} };
+		
+		
+		
+		}
+		
+		
+		
+		
+		
+	} //메인
+
+} //클래스

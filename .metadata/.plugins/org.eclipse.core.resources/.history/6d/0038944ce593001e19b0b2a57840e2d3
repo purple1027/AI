@@ -1,0 +1,27 @@
+import java.awt.Menu;
+
+public class 확인문제4장은행예금 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		//7번 문제
+		
+		Scanner sc=new Scanner(System.in);
+		System.out.println("은행 예금 프로젝트");
+		System.out.println("메뉴를 입력하세요?");
+		sc. nextLine();
+		while(!menu.equals ("4")) {
+			System.out.println("-----------------------");
+
+			System.out.println("1 예금 | 2. 출금 | 3. 잔고 | 4. 종료");
+		
+		
+		
+		}
+		
+		
+		
+	} //main
+
+} //class

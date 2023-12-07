@@ -1,0 +1,28 @@
+
+public class 문자열추출 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		String title="자바프로그래밍"; // 문자열 객체
+		String title2=new String("자바프로그래밍");
+		
+		System.out.println(title2.length()); // 문자열의 길이 구하는것 length
+		
+		System.out.println(title2.charAt(6));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	} //메인
+ 
+} // 클래스

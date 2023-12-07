@@ -1,0 +1,26 @@
+package javaBasic03;
+
+public class 자동차판매현황 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		
+	String 차랑명;
+	int 차량총액;
+	int 인도금;
+	int 할부원금;
+	int 상환기간;
+	int 월납입금;
+	
+	
+		
+		
+		
+		
+		
+		
+		
+	} //메인
+
+} // 클래서

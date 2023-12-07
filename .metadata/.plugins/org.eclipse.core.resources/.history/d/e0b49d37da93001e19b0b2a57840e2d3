@@ -1,0 +1,132 @@
+
+public class while문연습 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		// 2 4 6 8 10 출력해보기
+		// 2를 정수형 변수에 넣는데
+	    // 정수형 변수를 2씩 더한다
+		// 반복해서 출력한다.
+		// 10이 넘으면 끝난다
+		
+		
+		int number = 2;
+
+		
+		
+		while(number < 10) {
+
+		System.out.println(number);
+		number = number + 2;
+				
+		}
+		
+		
+		
+		//do ~ while
+		
+		//do { 
+			
+			// 반복할 내용 while (조건식);
+			
+			
+		} //
+	
+	
+	// 1 2 3 4 ...10
+	
+	int n2=1;
+	do { System.out.println(n2);
+	n2++;;
+		
+	}while (n2<=10);
+		
+		
+		
+	// 10 9 8 7 6 5 4 3 2 1
+	
+	int n3 = 10;
+	do {System.out.println(n3);
+	 n3--; }
+	
+	while (n3>=1);
+		
+		
+	// 2 4 6 8 10 ... 20
+	
+	int n4=2;
+	do {System.out.println(n4);
+	n4=n4+2;
+	}
+	
+	while (n4<=20);
+	
+	
+	// 5 10 15 ....100 출력하기
+	
+	
+	int n5=5;
+	do {System.out.println(n5);
+	n5=n5+5;
+	}
+	
+	while (n5<=100);
+			
+	
+	
+	//for문
+
+	 /*형식
+	  *형식
+	  *for (초기값 ; 조건식 ; 증가값) {
+	  *
+	  *반복할 내용들
+	  *
+	  *};
+	  *
+	  *
+	  *
+	  */
+	
+	
+	// 1 2 3 ...10 출력
+	
+	for(int i=1 ; i<=10 ; i++) {System.out.println(i);}
+	
+	// 1~ 50 출력
+	
+	for(int i2=1 ; i <=50 ; i++) {System.out.println(i2);
+	
+	// 50~1 출력
+	
+	for(int i3=50 ; i>=1 ; i--) {System.out.println(i3);
+	
+	
+	
+	for(int i=1, j=10 ; i<=10|| J<=19 ;i++, j++) {
+		System.out.println(i + " " + j);
+	}
+	
+	
+	
+	
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+	}
+
+}

@@ -1,0 +1,22 @@
+package javeBasic.ch02.sec10;
+
+public class datatype2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		
+		// 논리형 boolean
+		
+		
+		boolean b1 = true;
+		boolean b2 = false;
+		
+		boolean b3 = 10 > 8;
+				System.out.println(b3);
+		
+		String name = "국제컴퓨터아트학원;
+		
+ 	}
+
+}

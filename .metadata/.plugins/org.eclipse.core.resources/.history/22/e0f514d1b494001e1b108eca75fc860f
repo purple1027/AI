@@ -1,0 +1,40 @@
+import java.util.Scanner;
+
+public class 학생점수분석 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Scanner sc=new Scanner(System.in);
+	    
+		int menu=1; // 선택변수
+		int schoolCount=0; //학생수
+		
+		while(menu != 5) {
+		System.out.println("------------------------------------------------");
+		System.out.println("1.학생수 | 2. 점수입력 | 3. 점수리스트 | 4. 분석 | 5. 종료");
+		System.out.println("------------------------------------------------");
+		System.out.println("선택>");
+		menu=sc.nextInt();
+		switch(menu) { 
+		case 1: System.out.println("학생수>");
+		        schoolCount= sc.nextInt();
+		case 2:	
+		case 3:
+		case 4:
+		case 5:
+	    default:System.out.println("선택수는 ~5중에 입력해 주세요.");
+			
+			
+		}
+		
+		
+		
+		}
+		
+		
+		
+		 
+	} //main
+
+} // class
