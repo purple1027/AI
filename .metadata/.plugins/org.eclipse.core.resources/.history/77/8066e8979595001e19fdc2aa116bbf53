@@ -1,0 +1,17 @@
+package javaBasic03.ch06.sec7;
+
+public class MemberService {
+
+	
+	boolean login(String id, String password) {
+		
+		
+	};
+	
+	void logout (String id) {
+		
+		
+	}
+
+
+} //class

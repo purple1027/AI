@@ -1,0 +1,19 @@
+package javaBasic03.ch06.example;
+
+public class calculator {
+
+	
+	static double pi=3.14159;
+	
+	static int plus(int x, int y) {
+		return x+y;
+		
+	}
+	
+	
+	static int minus(int x, int y) {
+		return x-y;
+		
+	}
+	
+}

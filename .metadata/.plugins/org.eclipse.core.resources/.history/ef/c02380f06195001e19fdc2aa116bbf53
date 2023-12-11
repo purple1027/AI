@@ -1,0 +1,10 @@
+package javaBasic03.ch06.sec;
+
+public class 대출현황표 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

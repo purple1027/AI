@@ -1,0 +1,10 @@
+package javaBasic03.ch06.sec2;
+
+public class 변수의생명주기 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
