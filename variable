@@ -1,0 +1,44 @@
+#변수연습
+_name="홍길동"
+_age=11
+
+print(type(_name)) # type함수는 자료형을 보여준다.
+
+number=10
+print(type(number))
+
+number="백점"
+print(type(number))
+
+#사칙연산
+
+str1="abc"
+str2="def"
+str3=str1+str2
+print(str3)
+
+
+
+
+
+ok1=True #1
+ok2=False #2
+ok3=ok1+ok2
+ok4=ok1-ok2
+ok5=ok1*ok2
+#ok3=ok1/ok2
+
+print(ok3,ok4,ok5,sep=">>")
+
+
+
+print(-26.35+8.7*(-21.0))
+
+
+print(3/5)
+
+a=1/3
+print(a)
+
+jumin="871027-2017114"
+sex=jumin[7:8]
