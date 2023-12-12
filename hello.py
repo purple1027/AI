@@ -10,5 +10,8 @@ print(address)
 print(phonenumber)
 print(email)
 
-
-
+s1 = "python"
+s2 = "c++"
+s3 = "java"
+s4= s1+s2+s3
+print=(s4*3)
