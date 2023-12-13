@@ -1,6 +1,7 @@
 INDEX VERSION 1.131+D:\AI\study folder\java study\.metadata\.plugins\org.eclipse.jdt.core
 1865797976.index
 4283672278.index
+218187628.index
 2472923855.index
 1310994699.index
 3831685721.index
