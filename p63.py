@@ -109,4 +109,5 @@ data = "      공백제거하기   "
 data=data.strip()
 print(f"공백제거한값은 {data}")
 
-kor=input("85")
+
+
