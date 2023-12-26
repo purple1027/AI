@@ -1,0 +1,25 @@
+"""def member_join(*args):
+  result=""
+  for: arg in args :
+      result=result+arg+" "
+  print("가입회원:", result      )
+
+member_join ("김정연","안서영")
+member_join ("황선영","김철영")
+member_join ("정수진","김보람","정수연","황소영")
+
+"""
+
+def multiply(num,x):
+  i=0
+  while i<len(num):
+    num[i]=num[i]*x
+    i=i+i
+
+
+numbers=[10,20,30,40,50]
+multiply(numbers,10) 
+print(numbers) 
+
+multiply(numbers,10) 
+print(numbers) 
