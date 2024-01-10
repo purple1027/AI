@@ -1,0 +1,214 @@
+use sqldb;
+select*from usertbl;
+
+select *from usertbl where userid in('BBK','JKW');
+select *from usertbl where name like '김%';
+select height from usertbl where name='김경호';
+select*from usertbl where height >=177;
+select*from usertbl where 
+  height >= (select height from usertbl where name='김경호');
+
+-- 은지원의 생일보다 늦게 태어난 사람
+
+select birthYear from usertbl where name='은지원';
+
+select*from usertbl where
+ birthYear >=(select birthYear from usertbl where name='은지원');
+ 
+ select*from buytbl;
+
+ select distinct prodName from buytbl;
+-- 노트북의 분류와 같은것 찾기.  prodName 노트북의 그룹네임 종류와 동일한 유저아이디와 프러덕네임, 그룹네임 검색하기
+
+select userID, prodName, groupName from buytbl where 
+groupName=(select groupName from buytble where prodName='노트북');
+  
+select*from buytbl;
+   
+   
+select prodName, userID from buytbl where  userID='KBS';
+
+select prodName, userID from buytbl
+where prodName=(select userId from usertbl where name='김범수');
+
+select*from usertbl;
+
+select*from usertbl where addr='서울';
+select*from usertbl
+ where height <= any(select height from usertbl where addr='서울');  -- any 최소값보다 큰 것, or 이라는 뜻!
+
+select*from usertbl
+ where height <= all(select height from usertbl where addr='서울'); -- 전부다 만족하는 것 and 
+ 
+select*from usertbl
+ where height <= some(select height from usertbl where addr='서울');
+ 
+select*from buytbl;
+select*from usertbl;
+-- 운동화를 산 사람의 이름 
+
+select name from usertbl
+ where userID =any(select userID from buytbl where prodName='운동화');
+ 
+ 
+select*from usertbl order by height desc limit 3;
+select*from usertbl order by birthYear asc limit 5;
+
+-- 테이블 만들기 구조가 usertbl과 동일함. usertbl과 동일한 테이블 만들고 싶으면?
+
+create table usertable2(select*from usertbl) ;
+select*from usertbl2;
+
+create table usertblseoul (select*from usertbl where addr='서울');
+select*from usertblseoul;
+
+create table heightTbl (select userID, name, height from usertbl where height between 175 and 180);
+
+select*from heightTbl;
+
+-- group by절
+
+select userid, sum(amount), avg(amount), count(amount), std(amount), var_samp(amount) from buytbl group by userid ;
+
+-- 총구매액이 1000원 이상인 사람의 사용자명과 총구매액 구하기 
+
+select userid, sum(price) from buytbl group by userid having sum(price) >=300;
+
+-- 경품 대상인 사람을 테이블 만들기. userid 전화번호1, 전화번호2, 주소
+
+create table eventTbl
+(select userid, mobile1, mobile2, addr from usertbl
+  where userid= any(select userid from buytbl group by userid having sum(price) >=300));
+
+select*from eventTbl;
+
+select*from buytbl;
+
+select groupName, sum(amount), sum(price) from buytbl group by groupName;
+
+
+create table if not exists maxGroupTbl 
+   ( select groupName, prodName, amount, price from buytbl 
+    where groupName = ( select  groupName 
+                     from buytbl group by groupName
+                             having max(price) >= ( select max(price) from buytbl)
+                       )
+    );
+
+
+-- rollup
+-- 소합계구하기
+
+select num, groupName, sum(price) from buytbl group by groupName, num with rollup;
+
+select * from buytbl order by groupName;
+
+-- 220 page
+-- 게시판에서 게시글번호 자동으로 번호가 넘버링이 되었음 좋겠다
+-- 학번 부여하는데 자동으로 부여되게하고싶다
+
+create table if not exists testTbl2
+(id int auto_increment primary key, 
+ userName char(3),
+ age int);
+
+insert into testTbl2 values (null,'지인',25);
+insert into testTbl2 (userName, age) values ('유나',22);
+insert into testTbl2 (userName, age) values ('유경',21);
+select * from testTbl2;
+
+alter table testTb12 auto_increment=100;
+insert into testTbl2 values (null,'지수',21);
+
+create table if not exists testTbl2
+(id int auto_increment primary key, 
+ userName char(3),
+ age int);
+ 
+ alter table testTbl2 auto_increment=240101;
+ insert into testTb12 (userName,age) values ('유경2', 21);
+ 
+ select*from testTbl2;
+ 
+set @auto_increment_increment=3;
+insert into testTb12 (userName,age) values ('유경5', 21);
+insert into testTb12 (userName,age) values ('유경', 21);
+
+select*from testTbl2;
+
+-- insert문인데 values를 쓰는것이 아니라 select문을 이용해서 삽입하기
+
+create table testTbl7 (id int, fname varchar(50), lname varchar(50));
+
+use employees;
+select*from employees.employees; -- 데이터베이스명. 테이블명 나란히 쓰기
+
+use sqldb;
+use employees;
+select*from employees;
+
+
+insert into employees values(1006,'05/01/01','정','현희', 'F', '20/10/15');
+insert into employees values(1007,'05/01/01','박','길동', 'F', '21/12/06');
+insert into employees values(1008,'05/01/01','이','순신', 'F', '22/11/05');
+insert into employees values(1009,'05/01/01','강','성희', 'F', '23/09/04');
+
+create table testTbl4 (id int, fname varchar(50), lname varchar(50));
+select emp_no, first_name, last_name from employees. employees;
+
+create table testTbl4 (id int, fname varchar(50), lname varchar(50));
+insert into testTbl4
+  select emp_no, first_name, last_name from employees.employees;
+
+select*from testTbl4;
+
+select * from buytbl order by price desc;
+
+create table copyBuyTbl
+  (select * from buyTb1) ;
+  
+select*from copyBuyTbl order by price desc limit 3;
+
+
+delete from copyBuyTbl order by price desc limit 3;
+select*from copyBuyTbl;
+
+
+select * from copyBuyTbl order by amount asc;
+delete from copyBuyTbl order by amount asc limit 2;
+
+
+select * from copyBuyTbl where prodName='운동화';
+
+update copyBuyTbl set price =60 where prodName='운동화' and userID='KBS';
+
+
+
+select*from buytbl;
+
+create table if not exists testTbl4
+(prodName varchar(4) not null,
+price int not null);
+
+insert into testtbl4 
+   select distinct prodName, price from buytbl;
+
+select*from testtbl4;
+
+update testtbl4 set price= 100 where prodName='청바지';
+
+-- 가장높은가격 찾기!
+
+select prodName from testtbl4 order by price desc limit 0, 1;
+
+-- 2단계 10프로 인하하기
+
+update testtbl4 set price=price-(price*0.1)
+ where prodName=
+ ( select prodName from testtbl4 order by price desc limit 0, 1);
+
+-- delete 문
+
+select* from buytbl;
+delete from buytbl where amount =min(amount) and number=2;
+
