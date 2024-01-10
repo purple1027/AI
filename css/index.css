@@ -52,3 +52,67 @@ body {
 .rightMainBar div a:hover {
   opacity: 50%;
 }
+
+header {
+  position: relative;
+  border-top: 30px solid #2938de;
+  border-bottom: 1px solid #b03a3a;
+}
+header h1 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 0 0 0 26px;
+}
+
+header h1 a {
+  display: block;
+  width: 100px;
+  height: 70px;
+  background: url(../image/logo.png) no-repeat center;
+}
+.hide {
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  border: 0;
+  width: 1px;
+  height: 1px;
+}
+
+a {
+  text-decoration: none;
+}
+
+header nav ul {
+  text-align: center;
+  font-size: 30px;
+}
+header nav ul li {
+  display: inline-block;
+}
+
+header nav ul li a {
+  display: block;
+  padding: 15 30px;
+  line-height: 69px;
+  font-size: 12px;
+  color: #000;
+}
+
+header .util {
+  position: absolute;
+  right: 0px;
+  top: 30px;
+}
+header .util a {
+  display: inline-block;
+  font-size: 30px;
+  color: #000;
+}
+
+header .util button {
+  width: 50px;
+  height: 70px;
+  background: url(../image/search.png) no-repeat;
+}
