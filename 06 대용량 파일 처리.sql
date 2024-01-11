@@ -267,33 +267,397 @@ select sysdate();
 
 -- -------------------------------- 261p 대용량 파일 처리하기 - 파일 올리고 내리기 (업로드, 다운로드)
 
+
+-- 1단계 데이터베이스를 만든다
+
 create database moviedb;
+
+-- 2단계 데이터베이스를 사용한다(활성화)
+
 use moviedb;
+
+-- 3단계 테이블 만들기
+
 create table movietbl
- (movie_id int,
-  movie_title varchar(30),
-  movie_director varchar(20),
-  movie_star varchar(20),
-  movie_script longtext, 
-  movie_film longblob) default charset=utf8mb4;
-  
-  insert into movietbl
-   values(1,'쉰들러리스트','스필버그','리암니슨',
-		  load_file('D:/AI/study folder/temp/movies/Schindler.txt'),
-          load_file('D:/AI/study folder/temp/movies/Schindler.mp4'));
+(
+movie_id int,
+movie_title varchar(30),
+movie_director varchar(20),
+movie_star varchar(20),
+movie_script longtext, -- 경로를 써주는 것!
+movie_film longblob -- 경로를 써주는 것!
+
+);
+
+
+insert into movietbl
+values
+ (1,'쉰들러리스트','스필버그','리암니슨',
+ load_file('D:/AI/study folder/temp/movies/Schindler.txt'),
+ load_file('D:/AI/study folder/temp/movies/Schindler.mp4') 
+ );
  
-
-select*from movietbl;
-
-show variables like 'max_allowed_packet';
+ -- 5단계
+ select*from movietbl;
+ 
+ -- longtext, longblob가 null이 나오는 이유
+ -- 1 이유: 용량이 모자라서
+ show variables like 'max_allowed_packet' ;
+ 
+ -- 2 이유: 경로가 달라서
 show variables like 'secure_file_priv';
 
+-- 환경설정하기 (카카오톡 확인)
+
+-- 내려받기 : 데이터베이스에 있는 것을 컴퓨터로 다운로드하기
+-- 1단계: (텍스트) 내릴 것을 확인하기
+select movie_script from movietbl where movie_id= 1 ;
+
+-- 2단계: 내리기
+select movie_script from movietbl where movie_id= 1 
+ into outfile'D:/AI/study folder/temp/movies/movies_script_copy.txt'
+ lines terminated by '\\,';
+
+
+-- 동영상 파일 내리기
+-- 1단계 내릴것을 확인할것
+
+select movie_film from movietbl where movie_id= 1 ;
+
+-- 2단계 동영상 파일 내리기
+select movie_film from movietbl where movie_id= 1 
+  into outfile 'D:/AI/study folder/temp/movies/movies_film_copy.mp4' ;
+
+ 
+ -- 피벗의 구현
+ 
+ use sqldb;
+ select*from usertbl;
+ select*from buytbl;
+ 
+ create table pivotTest
+ (
+ uName char(3),
+ season char(2),
+ amount int
+ );
+ 
+ insert into pivotTest values
+  ('김범수','겨울',10), ('박가을','여름',14), ('박지영','가을',25), ('홍길동','봄',30),
+  ('이순신','겨울',35), ('배은영','여름',45), ('김나래','봄',17), ('이선아','겨울',45);
+ 
+ select*from pivotTest;
+ 
+ -- 피벗: 함수 사용해서 보기 편하게 만들기!
+ 
+ 
+ select uname '이름', sum(if(season='봄', amount, 0)) '봄', 
+                   sum(if(season='여름', amount, 0))'여름', 
+                   sum(if(season='가을', amount, 0))'가을', 
+                   sum(if(season='겨울', amount, 0))'겨울', 
+                   sum(amount)합계
+ 
+ from pivotTest group by uname;
+ 
+ 
+ 
+ -- 270 문제풀기
+ 
+select season,
+  sum(if(uname='김범수',amount,0))'김범수',
+sum(if(uname='윤종신',amount,0))'윤종신',
+sum(amount)'합계'
+
+from pivotTest group by season;
+
+-- json 파일 처리하기
+-- 1. json 만들기
+-- json.array()
+
+
+select json_array(1, "abc", Null, True, curtime());
+
+-- json_object()
+
+#select json_object("score", 87","name", "hong", "age", "25");
+#set @jsonData= json_object ("score", 87","name", "hong", "age", "25");
+
+
+select @jsonData;
+
+
+select * from usertbl;
+
+select json_object(userid, addr)
+    
+from usertbl;
 
 
 
-select*from movietbl;
-drop table movietbl;
+select * from usertbl;
+
+select 
+
+ json_object(userid, json_array(mobile1, mobile2))
+    
+from usertbl;
+
+
+-- 외부로 내보내기. json 파일로 만들기
+
+select 
+ json_object(userid, json_array(mobile1, mobile2))
+from usertbl
+into outfile'D:/AI/study folder/temp/movies/jsonoutput.json';
 
 
 
 
+--  자료형이 json인지 판단하기
+-- json_valid()
+
+
+set @jsonData = json_object ("score", 87,"name", "hong", "age", 25);
+select json_valid(@jsonData);
+
+select
+if (json_valid(@jsonData)=1,
+'json 자료다',
+'json 자료가 아니다');
+
+-- json_insert
+
+SET @j = '{"a": 1, "b": [2,3]}';
+select json_insert(@j, '$.c', 10); -- 키가 새것이면 삽입된다
+select json_insert(@j, '$.a', 10); --  키가 이미 있으면 삽입되지 않는다
+select json_insert(@j, '$.b', '[2,3,4]'); --  키가 이미 있으면 삽입되지 않는다
+
+
+-- replace
+
+SET @j = '{"a": 1, "b": [2,3]}';
+
+select json_replace(@j, '$.a',10); -- 키가 있으면 수정하기
+select json_replace(@j, '$.c',10); -- 키가 없으면 아무것도 안하기
+
+
+-- ----------------조인 (join)
+
+select * from usertbl ;
+select * from buytbl ;
+
+select *  from usertbl 
+   inner join  buytbl
+   on usertbl.userid = buytbl.userid ; 
+ 
+select usertbl.name, buytbl.prodName  from usertbl 
+   inner join  buytbl
+   on usertbl.userid = buytbl.userid 
+where  birthyear  between 1970 and 1980 ;   
+   
+select usertbl.name, buytbl.prodName  from usertbl 
+   inner join  buytbl
+   on usertbl.userid = buytbl.userid 
+where  birthyear  between 1970 and 1980 order by usertbl.name limit 3 ;  
+
+-- select usertbl.name, buytbl.prodName  from usertbl 
+--                    5                        1
+--    inner join  buytbl
+--                  2
+--    on usertbl.userid = buytbl.userid 
+--                     3
+-- where  birthyear  between 1970 and 1980 
+--                      4
+-- order by usertbl.name
+--              6
+-- limit 3 ; 
+--     7
+
+
+
+select u.name, b.prodName  from usertbl u
+   inner join  buytbl b
+   on u.userid = b.userid 
+where u.userid='BBK'; 
+
+
+
+-- 282
+
+create table stdTBl
+(stdName varchar(10) not null primary key,
+addr char(4) not null
+);
+
+create table clubtbl
+(clubName varchar(10) not null primary key,
+roomNo char(4) not null
+);
+
+create table stdclubTbl (
+   num int auto_increment not null primary key,
+   stdName varchar(10) not null,
+   clubName varchar(10) not null,
+   foreign key(stdName) references stdTbl(stdName),
+   foreign key(clubName) references clubTbl(clubName)
+);
+
+
+
+insert into stdTbl
+values
+( '김범수','경남'), ('성시경','서울'), ('조용필','경기'),('은지원','경북'), ('바비킴','서울') ; 
+
+insert into clubTbl
+values
+( '수영','101호'), ('바둑','102호'), ('축구','103호'),('봉사','104호') ; 
+
+insert into stdclubtbl
+values
+( null, '김범수','바둑'), (null,'김범수','축구'),
+(null,'조용필','축구'),(null,'은지원','축구'),
+(null, '은지원','봉사'), (null, '바비킴','봉사') ; 
+
+-- 1. 요구사항 학생테이블, 동아리테이블, 학생동아리 테이블을 이용하여 
+-- 학생을 기준으로 학생이름, 지역, 가입한 동아리, 동아리방 보기
+
+-- 2. 요구사항 학생테이블, 동아리테이블, 학생동아리 테이블을 이용하여 
+-- 축구를 선택하신 분의 이름과 지역은? 김범수 경남, 조용필 경기, 은지원 경북
+
+-- 3. 요구사항 학생테이블, 동아리테이블, 학생동아리 테이블을 이용하여 
+-- 은지원이 선택한 동아리와 동아리방은?
+
+-- 4. 요구사항 학생테이블, 동아리테이블, 학생동아리 테이블을 이용하여 
+-- 서울 지역에 사는 사람이 선택한 동아리명은?
+
+
+
+select s.stdname, s.addr, c.clubname, c.roomNo
+from stdtbl s
+ inner join stdclubtbl sc
+ on s.stdName= sc.stdName
+ inner join clubtbl c
+ on sc.clubname=c.clubname ;
+ 
+ 
+ 
+ select 
+   s.stdname, s.addr
+ from stdtbl s
+	 inner join stdclubtbl sc
+	 on s.stdname=sc.stdname
+	 inner join clubtbl c
+	 on sc.clubname= c.clubname
+ where sc.clubname='축구';
+ 
+ 
+ 
+ select
+   c.clubName, c.roomNo 
+ from stdtbl s
+	 inner join stdclubtbl sc
+	 on s.stdname=sc.stdname
+	 inner join clubtbl c
+	 on sc.clubname= c.clubname
+ where sc.stdname='은지원';
+ 
+ 
+  select
+   s.stdname, sc.clubname 
+ from stdtbl s
+	 inner join stdclubtbl sc
+	 on s.stdname=sc.stdname
+	 inner join clubtbl c
+	 on sc.clubname= c.clubname
+ where s.addr='서울';
+ 
+   select
+   c.roomno, s.stdname 
+ from stdtbl s
+	 inner join stdclubtbl sc
+	 on s.stdname=sc.stdname
+	 inner join clubtbl c
+	 on sc.clubname= c.clubname
+ where c.roomno in('101호' '102호');
+ 
+ 
+ -- outer join
+ -- join에 만족하지 않은 행 까지 포함하기 (null 까지 포함)
+ 
+select  
+   *
+from stdtbl s
+   left outer join stdclubtbl sc 
+   on s.stdName = sc.stdName 
+   left outer join clubtbl c 
+   on sc.clubName = c.clubName 
+
+union   
+
+select  
+   *
+from stdtbl s
+   left outer join stdclubtbl sc 
+   on s.stdName = sc.stdName 
+   right outer join clubtbl c 
+   on sc.clubName = c.clubName;
+   
+   
+   
+   -- 4번
+   
+select s.stdName, sc.clubname
+from stdtbl s
+ left outer join stdclubtbl sc
+ on s.stdName= sc.stdName
+ left outer join clubtbl c
+ on sc.clubname=c.clubname 
+ 
+where s.addr='서울';
+ 
+ 
+ -- cross join 비강추
+ 
+ select*from stdtbl, stdclubtbl, clubtbl;
+ 
+ select*from stdtbl
+   cross join stdclubtbl
+   cross join clubtbl;
+
+
+-- self join
+   
+   USE sqldb;
+CREATE TABLE empTbl (emp CHAR(3), manager CHAR(3), empTel VARCHAR(8));
+
+INSERT INTO empTbl VALUES('나사장',NULL,'0000');
+INSERT INTO empTbl VALUES('김재무','나사장','2222');
+INSERT INTO empTbl VALUES('김부장','김재무','2222-1');
+INSERT INTO empTbl VALUES('이부장','김재무','2222-2');
+INSERT INTO empTbl VALUES('우대리','이부장','2222-2-1');
+INSERT INTO empTbl VALUES('지사원','이부장','2222-2-2');
+INSERT INTO empTbl VALUES('이영업','나사장','1111');
+INSERT INTO empTbl VALUES('한과장','이영업','1111-1');
+INSERT INTO empTbl VALUES('최정보','나사장','3333');
+INSERT INTO empTbl VALUES('윤차장','최정보','3333-1');
+INSERT INTO empTbl VALUES('이주임','윤차장','3333-1-1');
+   
+ 
+ -- 우대리의 상관의 연락처 구하기
+ 
+ select
+ e1.empTel
+ from emptbl e
+   inner join emptbl e1
+   on e.manager=e1.emp
+where e.emp='우대리';
+   
+   
+   
+   
+ 
+   
+   
+   
+   
+ 
