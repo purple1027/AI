@@ -116,3 +116,54 @@ header .util button {
   height: 70px;
   background: url(../image/search.png) no-repeat;
 }
+
+table,
+thead,
+tbody,
+tfoot,
+th,
+td {
+  border: 1px solid #a81717;
+}
+/*표의 전체크기 */
+
+table {
+  width: 600px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #9b9494;
+  border-left: 1px solid #9b9494;
+}
+/*셀의 크기 */
+
+th:first-child,
+td:first-child {
+  border-left: none;
+}
+
+.c1 {
+  width: 100px;
+  height: 200px;
+  padding: 2px; /* 글자와 선의 테두리*/
+}
+.c2 {
+  width: 300px;
+  height: 70px;
+}
+.c3 {
+  width: 200px;
+  height: 700px;
+  vertical-align: middle; /* 수직글자정렬*/
+}
+.c4 {
+  width: 100px;
+  height: 300px;
+  text-align: right; /*수평글자 정렬 */
+}
