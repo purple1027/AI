@@ -344,28 +344,40 @@ create table backup_userTbl
  -- 트리거 작성하기
  
  delimiter //
- 
- create trigger but -- 언제할래 업데이트 후에 무엇을 할래? usertbl의 모든행을
- after update
- on usertbl
- for each row
- begin -- 어떻게 ? 내용
- insert into backup_usertbl
- values (OLD.userID, OLD.name, OLD.birthyear, OLD.addr, 
-         OLD.mobile1, OLD.mobile2, OLD.height, OLD.mDate,
-         '수정', curdate(), current_user()
-          );
+create trigger  but  -- 언제할래? update 후에  무엇을 할래? usertbl의 모든 행을  
+   after update 
+   on usertbl 
+   for each row 
+ begin -- 어떻게 ? 내용 
+    insert into backup_userTbl  
+    values ( OLD.userID, OLD.name, OLD.birthYear, old.addr, 
+             old.mobile1, old.mobile2, old.height, old.mDate,
+             '수정', curdate(), current_user() 
+             ) ;
+ end //
+delimiter ; 
 
- end//
+select * from usertbl ;
+
+update usertbl set birthYear = 1977 where userId='BBK' ;
+update usertbl set addr = '서울' where userId='EJW' ;
+
+select * from backup_userTbl ;
+
+
  
  
- delimiter ;
+
+
+
+
+
  
 select *from usertbl;
 
 update usertbl set birthyear =1977 where userid='bbk';
 update usertbl set addr ='서울' where userid='EJW';
-select *from backup_userTbl;
+select *from backup_userTbl
 
 
 
