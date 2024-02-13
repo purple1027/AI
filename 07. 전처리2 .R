@@ -376,6 +376,7 @@ aggregate(mtcars, by=list(cyl=mtcars$cyl,vs=mtcars$vs), FUN=mean)
 
 #문제 7번
 
+install.packages('mlbench')
 library(mlbench)
 data("Ionosphere")
 myds <- Ionosphere
@@ -385,42 +386,101 @@ myds
 aggregate(myds[,3:10], by=list(구분=myds$Class, v1=myds$V1), FUN = sd)
 
 
-#문제 14번
-#(1)
-
-subway <- read.csv( 'D:/AI/study folder/R study/subway.csv', header = TRUE, fileEncoding = "CP949", encoding = "UTF-8")
-
-subway.latlong<- read.csv('D:/AI/study folder/R study/subway_latlong.csv',header = TRUE, fileEncoding = "CP949", encoding = "UTF-8" )
 
 
-subway
-subway.latlong
+#####################
+# 병합
+#####################
 
 
-subway.tot <-  merge( subway, subway.latlong, by.x = c('station'), by.y=c('STATION_CD'),  )
-head(subway.tot)
-head(subway)
-head(subway.latlong)
+x <- data.frame(name=c('a','b','c'), math=c(90,80,40))
+x
+
+y <- data.frame(name=c('a','b','d'), math=c(75,60,90))
+y
+
+z <- merge(x,y, by=c('name'))
+z
+
+z1 <- merge(x,y, by=c('name'),all=T)
+z1
+
+z2 <- merge(x,y, by=c('name'),all.x=T)
+z2
+
+z3 <-  merge(x,y, by=c('name'),all.y=T)
+z3
 
 
 
-#(2)
 
-agg<- aggregate(subway.tot[,c('on_tot','off_tot')], 
-          by=list(역이름=subway.tot$stat_name, 날짜=subway.tot$income_date), 
-          FUN=sum )
 
-head(agg)
 
-tail(agg)
 
-#(3)
+# 14. 다음 문제를 해결하기 위한 R 코드를 작성하시오.
+# 
+# (1) 제공된 파일 중 subway.csv와 subway_latlong.csv 파일을 읽은 후 병합하여 subway.tot에 저장하시오(병합 기준 열은 STATION_CD와 station).
+subway <- read.csv( 'D:/ai/study/r_study/subway.csv', header = TRUE, fileEncoding = "CP949", encoding = "UTF-8")
+subway.latlong <- read.csv( 'd:/ai/study/r_study/subway_latlong.csv', header = TRUE, fileEncoding = "CP949", encoding = "UTF-8")
+head( subway )
+head( subway.latlong  )
 
-year.2011 <- subway.tot$income_date>=20110101& subway.tot$income_date<=20111231
-year.2011
+subway.tot <- merge( subway, subway.latlong, by.x=c('station'), by.y=c('STATION_CD'),   )
+head( subway.tot )
 
-agg.2011<- aggregate(subway.tot[year.2011,c('on_tot','off_tot','income_date')], 
-                by=list(역이름=subway.tot$stat_name[year.2011] ), 
-                FUN=sum )
-head(agg.2011)
+# (2) subway.tot에서 역 이름과 날짜를 기준으로 on_tot(탑승 인원)과 off_tot(하차 인원)을 집계(합계)하여 출력하시오.
+
+agg <- aggregate( subway.tot[, c(  'on_tot','off_tot'   )],  
+                  by=list( 역이름=subway.tot$stat_name, 날짜=subway.tot$income_date   ), 
+                  FUN=sum )
+head( agg )
+tail( agg )
+# (3) subway.tot에서 2011년도에 대해서만 역 이름을 기준으로 on_tot(탑승 인원)과 off_tot(하차 인원)을 집계(합계)하여 출력하시오. 
+# 1단계 2011년도만 추출
+condi <- subway.tot$income_date >= 20110101 & subway.tot$income_date <= 20111231
+# 2단계 집계함수
+aggregate( subway.tot[ condi,  c('on_tot', 'off_tot') ], 
+           by=list(역이름=subway.tot$stat_name[condi]), 
+           FUN=sum
+)
+# (4) subway.tot에서 2011년도에 대해서 LINE_NUM(호선)별 on_tot(탑승 인원)과 off_
+# tot(하차 인원)을 집계(합계)하여 출력하시오.
+aggregate( subway.tot[ condi, c('on_tot', 'off_tot') ], 
+           by=list(호선별=subway.tot$LINE_NUM[condi]),
+           FUN=sum
+)
+
+
+#15번 문제
+
+authors <- data.frame(
+  surname = c("Twein", "Venables", "Tierney", "Ripley", "McNeil"),
+  nationality = c("US", "Australia", "US", "UK", "Australia"),
+  retired = c("yes", rep("no", 4)))
+books <- data.frame(
+  name = c("Johns", "Venables", "Tierney", "Ripley", "Ripley", "McNeil"),
+  title = c("Exploratory Data Analysis",
+            "Modern Applied Statistics ...",
+            "LISP-STAT",
+            "Spatial Statistics", "Stochastic Simulation",
+            "Interactive Data Analysis"),
+  other.author = c(NA, "Ripley", NA, NA, NA, NA))
+
+#(2) surname과 name을 공통 열로 하여 authors와 books를 병합하여 출력하시오(두 데이터프레임에서 공통 열의 값이 일치하는 것들만 병합).
+
+merge(authors, books, by.x= c('surname'), by.y=c('name'))
+
+#(3) surname과 name을 공통 열로 하여 authors와 books를 병합하여 출력하되 authors의 행들이 모두 표시되도록 하시오.
+
+merge(authors, books, by.x= c('surname'), by.y=c('name'), all.x = T)
+
+#(4) surname과 name을 공통 열로 하여 authors와 books를 병합하여 출력하되 books의 행들은 모두 표시되도록 하시오.
+
+merge(authors, books, by.x= c('surname'), by.y=c('name'), all.y = T)
+
+# (5) surname과 other.author를 공통 열로 하여 authors와 books를 병합하여all.y = # (5) surname과 other.author를 공통 열로 하여 authors와 books를 병합하여 출력하시오.
+
+merge(authors, books, by.x= c('surname'), by.y=c('name'), all= T)
+
+
 
